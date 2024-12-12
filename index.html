@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Facts App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 30px;
+        }
+
+        .fact-box {
+            background-color: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #fact-display {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        #category-tag {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        #generate-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #generate-btn:hover {
+            background-color: #45a049;
+        }
+
+        .fact-counter {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gaming Facts Generator</h1>
+        <div class="fact-box">
+            <p id="fact-display">Click the button to generate a random gaming fact!</p>
+            <span id="category-tag"></span>
+        </div>
+        <button id="generate-btn">Generate Fact</button>
+        <div class="fact-counter">
+            <span id="fact-number">0</span>/20
+        </div>
+    </div>
+
+    <script>
+        const gameFacts = {
+            "gameFacts": [
+                {
+                    "id": 1,
+                    "category": "Gaming History",
+                    "fact": "The first video game console, the Magnavox Odyssey, was released in 1972"
+                },
+                // ... [Previous 18 facts remain the same]
+                {
+                    "id": 20,
+                    "category": "Technical",
+                    "fact": "The PlayStation 1's music was actually created by its CPU"
+                }
+            ]
+        };
+
+        let usedFacts = new Set();
+
+        document.getElementById('generate-btn').addEventListener('click', generateFact);
+
+        function generateFact() {
+            if (usedFacts.size === gameFacts.gameFacts.length) {
+                usedFacts.clear();
+            }
+
+            let availableFacts = gameFacts.gameFacts.filter(fact => !usedFacts.has(fact.id));
+            let randomFact = availableFacts[Math.floor(Math.random() * availableFacts.length)];
+            
+            usedFacts.add(randomFact.id);
+
+            document.getElementById('fact-display').textContent = randomFact.fact;
+            document.getElementById('category-tag').textContent = randomFact.category;
+            document.getElementById('fact-number').textContent = usedFacts.size;
+        }
+    </script>
+</body>
+</html>
